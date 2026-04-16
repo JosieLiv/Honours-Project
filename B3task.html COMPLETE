@@ -1,0 +1,62 @@
+<!-- Beginner Task 3- user dash -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+
+    <body>
+        <!-- images and H1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <!-- Jinja2, if results are returned by the query, display -->
+        {% if queryresult %}
+        <div class="users">
+            <h3 style="font-size: 30px;">Account Dashboard</h3>
+            <!-- table, centered -->
+            <table style="margin: 0 auto; width: 50%;">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Favourite Book</th>
+                        <th>Flag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Jinja2 loop returns details for each user in database table -->
+                    <!-- result displayed in table -->
+                    {% for user in queryresult %}
+                        <tr>
+                            <td>{{ user['userID'] }}</td>
+                            <td>{{ user['email'] }}</td>
+                            <td>{{ user['password'] }}</td>
+                            <td>{{ user['book'] }}</td>
+                            <td>{{ user['flag'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- error message -->
+        {% else %}
+            <p style="text-align: center;" class="errorMessage">Profile not found</p>
+        {% endif %}
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
