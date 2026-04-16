@@ -93,8 +93,9 @@
                 > Log into the Book Nook account using the given credentials<br>
                 > You can Inspect the page usually by Right-Clicking on the page<br>
                 > Find the drop down for the "form" tag in the Developer Tools panel<br>
-                > Double click the value attribute for the "input" tag and change its value from noadmin to admin</p>
+                > Double click the value attribute for the "input" tag and change its value from noadmin to admin<br>
                 > Click the Manage Accounts button again and you should be taken to the admin panel
+                </p>
 
         </div>
    
