@@ -1,0 +1,51 @@
+<!-- Advanced Task1 - User Dashbaord -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+
+    <body>
+        <!-- images and H1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+ 
+        <h3 style="font-size: 30px;">Customer Dashboard</h3>
+        <!-- Jinja2 if returns user details from database table -->
+        {%  if profile %}
+        <div class="account">
+            <p style="font-size: 20px; padding: 20px;">
+                Email: {{ profile['email'] }}<br>
+                Role: {{ profile['role'] }}<br>
+                Favourite Book: {{ profile['book'] }}<br>
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- button to access admin panel -->
+        <!-- NOTE: This button should not be displayed on a customer's dashboard. Fix this before deployment! -->
+        <form method="POST" action="/labs/advanced/A1/A1task/A1_admin">
+            <!-- hidden input, value is noadmin when a customer is logged in -->
+            <input type="hidden" name="role" value ="noadmin">
+            <button type="submit" class="button" style="display: block; margin: 0 auto;">Manage Accounts</button>
+        </form>
+
+        <!-- Jinja2 displays error message if trying to access admin panel without administrative access -->
+        {% if error %}
+            <p class="errorMessage" style="text-align: center;">{{ error }}</p>
+        {% endif %}  
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
