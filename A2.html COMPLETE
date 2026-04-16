@@ -40,10 +40,6 @@
              > user email: marylamb@booknook.com<br>
              > encrypted password: pbbxvrqbhtu <br>
             </p> 
-            <h2>Cryptographic Failures</h2>
-            <!-- Descition of vulnerability and task -->
-            <p>DESCRIPTION
-            </p>
             <!-- Button to start lab, opens a new tab -->
             <a href="/labs/advanced/A2/A2task" target="_blank" class="button">Start Lab</a>
             
