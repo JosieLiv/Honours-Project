@@ -1,0 +1,105 @@
+<!-- Beginner Task1 -->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Beginner: Task 1</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Beginner: Task 1</h1>
+
+        <!-- Navigation --> 
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/beginner">Beginner Labs</a>
+        </nav>
+
+        <div class="description">
+             
+            <!-- Task title -->
+            <h2>Broken Access Control</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Access Control is a security measure that enforces rules to determine what
+                data or resources users are <br>allowed to access and what actions they can perform.
+                When access control is not properly secured, <br>attackers can exploit vulnerabilities to access
+                sensitive information and perform unauthorised actions.<br><br> 
+
+                In this lab, you will have access to the web application for Book Nook, where users can browse,<br> 
+                buy and wishlist books. However, the site has been deployed too early and the developers <br>
+                were very sloppy. One has forgotten to delete some comments containing sensitive information.
+                <br><br>Task: Capture the Flag ! It is in a panel that only staff should be able to access.<br>
+                <br><br>User Credentials: <br><br>
+                > username - user1 <br>
+                > password - passw0rd <br><br>
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/beginner/B1/B1task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="B1">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="broken_access_control_4th86">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Once you log in as a standard user, try viewing the page source.</p>
+                <p class="hint" style="display: none;">Hint 2: What useful information can you find in the developers comments?</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>           
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;"> 
+                <!-- Solution text -->
+                <p> 
+                > Log into the Book Nook account using the given credentials. <br>
+                > You can View Page Source usually by Right-Clicking on the page. <br>
+                > The developer comments reveal that the session check has not yet been implemented and <br>
+                that there is an admin panel at /B1_admin. <br>
+                > In the URL, replace the current page, /B1_dash, with the discovered page.
+                </p>
+            </div>
+
+    </body>
+
+</html>
