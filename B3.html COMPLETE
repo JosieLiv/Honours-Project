@@ -1,0 +1,98 @@
+<!-- Beginner Task 3 -->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Beginner: Task 3</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Beginner: Task 3</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/beginner">Beginner Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Injection</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Injection vulnerabilities occur when an application improperly validates or filters user <br>
+                input before it is processed, allowing an attacher to 'inject' malicious code. Once the <br>
+                backend executes this code, the system can be compromised and data can be leaked. SQL Injection <br>
+                (SQLi) is when malicious user input is inserted directly into SQL queries resulting in unauthorised <br>
+                access to a database.
+                <br>
+            In this lab, you will have access to the web application for Book Nook, where users can browse, buy <br>
+            and wishlist books. However, the site has been deployed too early and the developers were very sloppy.<br> 
+            Unsanitised input can be passed directly into a database query.
+            <br><br>
+            Task: Capture the Flag ! Display the full user table to find it.
+            <br><br>
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/beginner/B3/B3task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="B3">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="injection_sq67l">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Add an SQL injection payload to the URL</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > In the URL, delete everything after the = sign and replace it with the SQLi payload: ' OR '1'='1</p>
+
+        </div>
+   
+    </body>
+
+</html>
