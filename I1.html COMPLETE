@@ -1,0 +1,101 @@
+<!-- Intermediate Task1-->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Intermediate: Task 1</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Intermediate: Task 1</h1>
+        
+        <!-- Navigation -->
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/intermediate">Intermediate Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Broken Access Control</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Access Control is a security measure that enforces rules to determine what
+                data or resources users are <br>allowed to access and what actions they can perform.
+                When access control is not properly secured, <br>attackers can exploit vulnerabilities to access
+                sensitive information and perform unauthorised actions.<br><br> 
+            
+                In this lab, you will have access to the web application for Book Nook, where users can browse,<br> 
+                buy and wishlist books. However, the site has been deployed too early and the developers <br>
+                were very sloppy. The server does not have any verification checks to if a user is authorised <br>
+                to view a requested profile.
+                <br><br>Task: Capture the Flag ! It is in another user's profile.<br>
+                <br><br>User Credentials: <br><br>
+                > user email - lilynorm@mymail.com <br>
+                > password - bunnies2006 <br><br>
+            
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/intermediate/I1/I1task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="I1">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="broken_access_control_8af38">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Once you log in, view the current URL. What can you spot?</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> > Log into the Book Nook account using the given credentials. <br> 
+                    > The URL ends in /I1_dash?userID=1 <br>
+                    > Access other user profiles by changing the value of userID. One profile contains the flag. <br>
+                </p>
+        </div>
+   
+    </body>
+
+</html>
