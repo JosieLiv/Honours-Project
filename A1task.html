@@ -1,0 +1,44 @@
+<!-- Advanced Task 1 - Login page -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Login </title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+
+        <!-- images and h1 title -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <!-- Login form  -->
+        <div class="formBox">
+            <div class="form">
+                <h3>Login:</h3>
+                <form method="POST">
+                    Username:    <input type="email" name="email" placeholder="enter email" autocomplete="off" required><br>
+                    Password:    <input type="password" name="password" placeholder="enter password" required><br>
+                    <button type="submit">Login</button><br>
+                </form>
+            </div>
+        </div>
+    
+        <!-- Jinja2 displays Flash message, from .py file when credentials are invalid -->
+        {% with messages = get_flashed_messages(with_categories=true) %} 
+            {% for category, message in messages %}
+                <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+        
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
