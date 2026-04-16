@@ -1,0 +1,106 @@
+<!-- Intermediate Task 2 -->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Intermediate: Task 2</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Intermediate: Task 2</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/intermediate">Intermediate Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Cryptographic Failures</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Cryptography is the practice of protecting data using algorithms that transform readable data into ciphertext <br>
+                using cryptographic keys to ensure that only authorised users have access to it. However, these algorithms can <br>
+                fail, exposing vulnerabilities to be exploited by attackers, seeking to access sensitive data.<br>
+            In this lab, you will have access to the web application for Book Nook, where users can browse, buy <br>
+            and wishlist books. However, the site has been deployed too early and the developers were very sloppy.<br> 
+            Sensitive data was not protected properly and there was a data breach. A username and password hash were leaked.
+            <br><br>
+            Task: Capture the Flag ! Just login to find it. You can create a Python script to find the matching password.
+            <br><br>
+             > user email: antleek@booknook.com<br>
+             > password hash: 482c811da5d5b4bc6d497ffa98491e38 <br>
+             <!-- link to download list of passwords -->
+            > password list: <a href="/static/passwords.txt" style="text-decoration: underline; color: blue;" download="passwords.txt">download</a>
+            </p> 
+           
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/intermediate/I2/I2task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="I2">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="crypto_failures_7gb73">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: In your script you must first import hashlib</p>
+                <p class="hint" style="display: none;">Hint 2: You can use the following command to create a password hash: hashlib.md5(password.encode()).hexdigest()</p>
+                <p class="hint" style="display: none;">Hint 3: Read in the passwords from file, convert them to hashes and compare them to the password hash provided in the task description</p>
+            </div>
+        
+        </div>
+
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > Create a python script that will read the passwords from the file, generate a hash and <br>
+                compare each generated hash to the hash provided in the task description<br>
+                > Once you have found the matching hash, you will have the password. Login and capture the flag!<br>
+                > Here is an example script: <a href="/static/I2task.py" style="text-decoration: underline; color: blue;">I2 solution script</a>
+                </p>
+        </div>
+   
+    </body>
+
+</html>
