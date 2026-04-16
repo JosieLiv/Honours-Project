@@ -1,0 +1,103 @@
+<!-- Advanced Task1 -->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Advanced: Task 1</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Advanced: Task 1</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/advanced">Advanced Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Broken Access Control</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Access Control is a security measure that enforces rules to determine what
+                data or resources users are <br>allowed to access and what actions they can perform.
+                When access control is not properly secured, <br>attackers can exploit vulnerabilities to access
+                sensitive information and perform unauthorised actions.<br><br> 
+
+                In this lab, you will have access to the web application for Book Nook, where users can browse,<br> 
+                buy and wishlist books. However, the site has been deployed too early and the developers <br>
+                were very sloppy. One has added the wrong button to the user's dashboard page, which takes authorised<br>
+                users to the admin panel.
+                <br><br>Task: Capture the Flag ! It is in a panel that only staff should be able to access.<br>
+                <br><br>User Credentials: <br><br>
+                > user email - lilynorm@mymail.com <br>
+                > password - bunnies2006 <br><br>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/advanced/A1/A1task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="A1">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="broken_access_control_5kl90">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Log in using the given details and interact with the Manage Accounts button</p>
+                <p class="hint" style="display: none;">Hint 2: Try inspecting the page to see what you can find out about this button</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > Log into the Book Nook account using the given credentials<br>
+                > You can Inspect the page usually by Right-Clicking on the page<br>
+                > Find the drop down for the "form" tag in the Developer Tools panel<br>
+                > Double click the value attribute for the "input" tag and change its value from noadmin to admin</p>
+                > Click the Manage Accounts button again and you should be taken to the admin panel
+
+        </div>
+   
+    </body>
+
+</html>
