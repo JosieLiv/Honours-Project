@@ -1,0 +1,57 @@
+<!-- Advanced Task 1 - Admin Panel -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+
+    <body>
+        <!-- images and H1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <div class="users">
+            <h3 style="font-size: 30px;">Admin Dashboard</h3>
+            <!-- table, centered -->
+            <table style="margin: 0 auto; width: 50%;">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Jinja2 loop returns details for each user in database table -->
+                    <!-- result displayed in table -->
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user['userID'] }}</td>
+                            <td>{{ user['email'] }}</td>
+                            <td>{{ user['roleID'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- flag to submit -->
+        <p style="text-align: center; color: #BDC4A7;">Congradulations!
+        Here is the Flag: <br>broken_access_control_5kl90
+        </p>
+
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
