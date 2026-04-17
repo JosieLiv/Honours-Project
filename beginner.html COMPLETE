@@ -1,0 +1,49 @@
+<!-- task selection page: beginner -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CyberBreach Labs - Beginner Labs</title>
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <h1>Beginner Labs</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+        </nav>
+
+        <p style="text-align: center;">Please select a lab task.</p>
+
+        <div class="taskContainer">
+
+            <a href="/labs/beginner/B1" class="TaskCard">
+                <div class="TaskNum">Task 1</div>
+                <div class="TaskTitle">Broken Access Cntrol</div>
+            </a>
+            <a href="/labs/beginner/B2" class="TaskCard">
+                <div class="TaskNum">Task 2</div>
+                <div class="TaskTitle">Cryptographic Failures</div>
+            </a>
+            <a href="/labs/beginner/B3" class="TaskCard">
+                <div class="TaskNum">Task 3</div>
+                <div class="TaskTitle">Injection</div>
+            </a>
+            <a href="/labs/beginner/B4" class="TaskCard">
+                <div class="TaskNum">Task 4</div>
+                <div class="TaskTitle">Insecure Design</div>
+            </a>
+            <a href="/labs/beginner/B5" class="TaskCard">
+                <div class="TaskNum">Task 5</div>
+                <div class="TaskTitle">Security Misconfigurations</div>
+            </a>
+
+        </div>
+        
+        
+
+
+    </body>
+
+</html>
