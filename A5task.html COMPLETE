@@ -1,0 +1,47 @@
+<!-- Advanced Lab 5 - user search page -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Admin - User Search</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <!-- user search -->
+        <div class="formBox">
+            <div class="form">
+                <h3>User Search:</h3>
+                <p>Please enter a user ID</p>
+                <form method="POST">
+                    UserID    <input type="text" name="userID" placeholder="enter userID" autocomplete="off" required><br>
+                    <button type="submit">Login</button><br>
+                </form>
+            </div>
+        </div>
+        <br><br><br>
+        <!-- fetches account details and displays them -->
+        {% if profile %}
+            <div style="text-align: center;">
+                <p>email: {{ profile['email'] }}</p>
+                <p>favourite book: {{ profile['book'] }}</p>
+            </div>
+        {% endif %}
+        <br><br><br>
+        
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+
+
+    </body>
+
+</html>
