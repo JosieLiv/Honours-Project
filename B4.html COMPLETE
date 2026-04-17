@@ -1,0 +1,96 @@
+<!-- Beginner Task 4-->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Beginner: Task 4</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Beginner: Task 4</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/beginner">Beginner Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Insecure Design</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Insecure Design stems from failure to consider all possible threats and abuse cases <br>
+                resulting in an underestimation of the level of security needed for an application. <br>
+                As attack vectors are often overlooked, certain authorisation mechanisms and security <br>
+                principles can be absent from the final design.
+            <br><br>In this lab, you will have access to the web application for Book Nook, where users can browse, buy <br>
+            and wishlist books. However, the site has been deployed too early and the developers were very sloppy.<br> 
+            There are hidden pages that have no authentication checks so any user can visit them.
+            <br><br>
+            Task: Capture the Flag ! The flag is in a hidden page.
+            <br><br>
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/beginner/B4/B4task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="B4">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="insecure_design_id23n">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Try common URLs of system-related pages such as /admin.</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > Append /backup to the current URL.</p>
+
+        </div>
+   
+    </body>
+
+</html>
