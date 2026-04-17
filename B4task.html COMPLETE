@@ -1,0 +1,30 @@
+<!-- Beginner task 4 - dashboard -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Dashboard</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <h3 style="font-size: 30px;">Dashboard</h3>
+        <div style="text-align: center; color: #BDC4A7">[You are logged in as a standard user]<br><br></div>
+        <p style=" text-align: center; font-size: 20px; padding: 20px;">
+            Soon you will be able to order and wishlist books on our site. 
+            <br>Keep an eye on our socials: @NookforBooks</p>
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
