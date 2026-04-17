@@ -1,0 +1,43 @@
+<!-- Advanced Task 3 -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Feedback</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+
+    <body>
+        <!-- images and H1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <!-- feedback form -->
+        <h3 style="font-size: 30px;">Feedback Form:</h3>
+        <div>
+            <form method="POST" autocomplete="off">
+                <textarea name="feedback" placeholder="Feedback comments" style="width:60%; height: 100px; padding: 10px; margin: 10px auto 0; display: block;"></textarea>
+                <button type="submit" class="button" style="display: block; margin: 10px auto 0; margin-bottom: 10px;">Submit</button>
+            </form>
+        </div>
+        
+        <!-- Jinja2, retrieve results and display-->
+        <div class="account" style="text-align: center;">
+            {% if result %}
+                {{ result | safe }}
+            {% endif %}
+        </div>
+        
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
