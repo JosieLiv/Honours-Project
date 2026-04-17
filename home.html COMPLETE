@@ -1,0 +1,36 @@
+<!-- Home/About Page -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>CyberBreach Labs - Home</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <h1>CyberBreach Labs</h1>
+        <!-- navigation -->
+        <nav>
+            <a href="/" class="active">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+        </nav>
+        <!-- welcome/about message -->
+        <h3>Welcome to CyberBreach Labs!</h3>
+        <p style="text-align: center;">
+            The Book Nook application was created with the intention of allowing users to browse<br><br>
+            and buy books, however, the application version that was deployed was incomplete. <br><br>
+            You can test your web security training skills by undertaking a variety of lab tasks to exploit vulnerabilities.<br><br>
+            There are five different exploitation categories to choose from and 
+            each has three difficulty levels.<br><br>
+            Don't worry if you get stuck! There are hints and solutions if needed.<br><br>
+            You also gain points when you complete a lab for the first time. 
+            Just take a look at the leaderboard!<br><br>
+        </p>
+        <!-- ethical considerations banner -->
+        <div class="banner">
+            The purpose of this web application is solely for education and not to execute malicious acts.<br>
+        </div>
+    </body>
+
+</html>
