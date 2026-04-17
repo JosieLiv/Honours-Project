@@ -17,7 +17,7 @@
             [2026-02-26] INFO: Database connected successfully <br>
             [2026-02-26] INFO: Root user logged in <br>
             <!-- flag -->
-            [2026-02-26] DEBUG: Here is the flag:<span style="color: white;"> security_config_hj59a</span> <br>
+            [2026-02-26] DEBUG: Here is the flag:<span style="color: blue;"> security_config_hj59a</span> <br>
         </p>
         
     </body>
