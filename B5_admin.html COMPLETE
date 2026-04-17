@@ -1,0 +1,60 @@
+<!-- Beginner task 5 - management panel -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Management panel</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <h3 style="font-size: 30px;">Management Panel</h3>
+        <p style=" text-align: center; font-size: 20px; padding: 20px;">
+            [Root User]
+        </p>
+        <div>
+            <!-- fake database table -->
+            <table class="users" style="margin: 0 auto; width: 45%;">
+                <thead">
+                    <tr>
+                        <th>Table</th>
+                        <th>Rows</th>
+                        <th>Size</th>
+                    </tr>
+                </thead>        
+                <tbody>
+                    <tr>
+                        <td>usersB5</td>
+                        <td>12</td>
+                        <td>0.4 MB</td>
+                    </tr>
+                    <tr>
+                        <td>books</td>
+                        <td>10,648</td>
+                        <td>14.8 MB</td>
+                    </tr> 
+                    <tr>
+                        <td>orders</td>
+                        <td>2,003</td>
+                        <!-- flag -->
+                        <td style="color: yellow ;">security_config_sc1c1</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+        
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
