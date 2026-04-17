@@ -1,0 +1,49 @@
+<!-- Intermediate Task 4 - user dashboard -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <h3 style="font-size: 30px;">My Account</h3>
+        <!-- Jinja2 displays profile details from database table -->
+        {%  if profile %}
+        <div class="account">
+            <p style="font-size: 20px; padding: 20px;">
+                Email: {{ profile['email'] }}<br>
+                Role: {{ profile['role'] }}<br>
+                Favourite Book: {{ profile['book'] }}<br>
+            </p>
+
+        </div>
+        <div>
+            <!-- Jinja2, if profile contains a flag, display it with message -->
+            {% if profile['flag'] %}
+                <p style="text-align: center; color: #BDC4A7;">Congradulations!
+                Here is the Flag: <br>
+                {{ profile['flag'] }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- JInja2, if profile does not exist, display Flash error message -->
+        {% else %}
+            <p class="errorMessage" style="text-align: center;">Error: Profile not found</p>
+        {% endif %}  
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
