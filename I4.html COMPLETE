@@ -1,0 +1,106 @@
+<!-- Intermediate Task 4 -->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Intermediate: Task 4</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Intermediate: Task 4</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/intermediate">intermediate Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Insecure Design</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Insecure Design stems from failure to consider all possible threats and abuse cases <br>
+                resulting in an underestimation of the level of security needed for an application. <br>
+                As attack vectors are often overlooked, certain authorisation mechanisms and security <br>
+                principles can be absent from the final design.
+            <br><br>In this lab, you will have access to the web application for Book Nook, where users can browse, buy <br>
+            and wishlist books. However, the site has been deployed too early and the developers were very sloppy.<br> 
+            In this login page, the error messages are too detailed which a user could exploit.
+            <br><br>
+            Task: Capture the Flag ! The flag is in a user's profile. Use the emails.txt and passwords.txt files
+            <br><br>
+            <!-- links to download list of emails passwords -->
+             > email list: <a href="/static/emails.txt" style="text-decoration: underline; color: blue;" download="passwords.txt">download</a>
+             <br>> password list: <a href="/static/passwords.txt" style="text-decoration: underline; color: blue;" download="passwords.txt">download</a>
+            
+        
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/intermediate/I4/I4task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="I4">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="insecure_design_d30nw">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Enter an incorrect email and password combination. What is the error message?</p>
+                <p class="hint" style="display: none;">Hint 1: Is there a correct email address in the email.txt file? What is the error message when using the correct email and wrong password?</p>
+                <p class="hint" style="display: none;">Hint 3: The correct password is somewhere in passwords.txt</p>
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > Enter the wrong email and password combonation -> you will get an error message.<br>
+                > Try all the emails from the file with the same incorrect password -> the error message will change, hinting that the email is correct.<br>
+                > Go through the list of passwords and try them out with the correct email. Eventually you will find the right combonation.<br>
+                > peterrabbit@mymail.com    bumblebee</p>
+
+        </div>
+   
+    </body>
+
+</html>
