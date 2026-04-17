@@ -36,7 +36,7 @@ Change:
             <a href="/account">Account</a>
             <a href="/labs">Labs</a>
             <!-- Added link: difficulty page -->
-            <a href="/labs/DIFFICULTY">Beginner Labs</a>
+            <a href="/labs/DIFFICULTY">DIFFICULTY Labs</a>
         </nav>
 
         <div class="description">
