@@ -1,0 +1,58 @@
+<!-- Intermediate task 5 - user dashboard -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Index of /files</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <h3 style="font-size: 30px;">About</h3>
+        
+        <div>
+            <!-- fake files table -->
+            <table class="users" style="margin: 0 auto; width: 45%;">
+                <thead">
+                    <tr>
+                        <th>File</th>
+                        <th>Size</th>
+                        <th>Last Date Modified</th>
+                    </tr>
+                </thead>        
+                <tbody>
+                    <tr>
+                        <td><a href="#">backup.spl</td>
+                        <td>3.2 KB</td>
+                        <td>20-03-2026</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">users.csv</td>
+                        <td>3.1 MB</td>
+                        <td>12-03-2026</td>
+                    </tr> 
+                    <tr>
+                        <!-- link to booknook.app -->
+                        <td><a href="/labs/intermediate/I5/I5task/files/booknook.log">booknook.log</a></td>
+                        <td>2.0 KB</td>
+                        <td>29-03-2026</td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
+        
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+        
+    </body>
+
+</html>
