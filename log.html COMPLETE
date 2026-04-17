@@ -1,0 +1,25 @@
+<!-- Intermediate task 5 - booknook.log -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+    </head>
+
+    <body>
+        <!-- logs -->
+        <h4>booknook.log</h4>
+        <p>
+            [2026-02-26] WARNING: Database connection failed <br>
+            [2026-02-26] WARNING: Failed login attempt <br>
+            [2026-02-26] WARNING: Failed login attempt <br>
+            [2026-02-26] WARNING: Failed login attempt <br>
+            [2026-02-26] INFO: Database connected successfully <br>
+            [2026-02-26] INFO: Root user logged in <br>
+            <!-- flag -->
+            [2026-02-26] DEBUG: Here is the flag:<span style="color: white;"> security_config_hj59a</span> <br>
+        </p>
+        
+    </body>
+
+</html>
