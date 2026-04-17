@@ -1,0 +1,105 @@
+<!-- account page -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>CyberBreach Labs - Account</title>
+        <!-- link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <h1>Account</h1>
+
+        <!-- navigation -->
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account" class="active">Account</a>
+            <a href="/labs">Labs</a>
+        </nav>
+        
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+        {% if user %}
+            <!-- If user is logged in, display account info, leaderboard and link to logout -->
+            <h2>Welcome!</h2>
+            <p>Username: {{ user['username'] }}<br>
+            Email: {{ user['email'] }}<br>
+            Score: {{ score['score'] }} points<br>
+            Tasks Completed: {{ total['total']}} out of 15<br>
+            </p>
+
+            <!-- progress bar -->
+            <div class="bar">
+                <div class="barFill" id="bar">
+                    {{ percent }}%
+                </div>
+            </div>
+
+            <script>
+                document.getElementById('bar').style.width = "{{ percent }}%";
+            </script>
+
+            <br><br>
+
+            <!-- leaderboard -->
+            <h2 style="text-align: center;">Leaderboard</h2>
+            <table class="leader">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in leaderboard %}
+                    <tr class="{{ 'highlight' if row['username'] == user['username'] }}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ row['username'] }}</td>
+                        <td>{{ row['score'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- log out button -->
+            <a href="/logout" class="button">Logout</a> 
+
+        {% else %}  
+
+            <!-- display create account and login forms -->
+            <div class="formBox">
+
+                <!-- If user is not logged in, create an account or login -->
+                <div class="eachForm">
+                    <h2 style="color: #DDD8C4">Create an Account</h2>
+                    <form method="POST">
+                        Username: <input type="text" name="username" placeholder="username" minlength="2" maxlength="15" autocomplete="off" required><br>
+                        Email:    <input type="email" name="email" placeholder="email" maxlength="80" autocomplete="off" required><br>
+                        Password: <input type="password" name="password" placeholder="password" minlength="8" maxlength="100" required><br>
+                        <button type="submit" name="action" value="register">Register Account</button><br> 
+                    </form>
+                </div>
+
+                <div class="eachForm">
+                    <h2 style="color: #DDD8C4">Login</h2>
+                    <form method="POST">
+                        Email:    <input type="email" name="email" placeholder="email" autocomplete="off" required><br>
+                        Password: <input type="password" name="password" placeholder="password" required><br>
+                        <button type="submit" name="action" value="login">Login</button><br>
+                    </form>
+                </div>
+
+            </div>
+        {% endif %}
+
+<!--------------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- Jinja2: displays pending Flash message -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %} 
+            {% for category, message in messages %}
+                <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+    </body>
+
+</html>
