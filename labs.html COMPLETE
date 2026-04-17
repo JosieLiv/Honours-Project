@@ -1,0 +1,36 @@
+<!-- Choose lab difficulty -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CyberBreach Labs - Labs</title>
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+    <body>
+        <h1>Labs</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs" class="active">Labs</a>
+        </nav>
+
+        <p style="text-align: center">Are you ready to complete some tasks, {{ session['username'] }}?<br>
+        Get started by choosing a difficulty:</p>
+
+        <div class="difficultyContainer">
+
+            <div class="difficulty">
+                <a href="labs/beginner">Beginner</a><br>
+            </div>
+            <div class="difficulty">
+                <a href="labs/intermediate">Intermediate</a><br>
+            </div>
+            <div class="difficulty">
+                <a href="labs/advanced">Advanced</a><br>
+            </div>
+
+        </div>
+        
+    </body>
+
+</html>
