@@ -1,0 +1,99 @@
+<!-- Advanced Task 3 -->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Advanced: Task 3</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+        <!-- Link to JavaScript file -->
+        <script src="{{ url_for('static', filename='labs.js') }}"></script>
+    </head>
+  
+    <body>
+        <!-- Task number and difficulty -->
+        <h1>Intermediate: Task 3</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+            <!-- Added link: difficulty page -->
+            <a href="/labs/advanced">Advanced Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Task title -->
+            <h2>Injection</h2>
+            <!-- Descition of vulnerability and task -->
+            <p>Injection vulnerabilities occur when an application improperly validates or filters user <br>
+                input before it is processed, allowing an attacher to 'inject' malicious code. Once the <br>
+                backend executes this code, the system can be compromised and data can be leaked. <br>
+                Sever Side Template Injection is when a user input is passed to a server-side template engine, <br>
+                such as Jinja2, allowing the attacker to inject template expressions.
+            <br><br>In this lab, you will have access to the web application for Book Nook, where users can browse, buy <br>
+            and wishlist books. However, the site has been deployed too early and the developers were very sloppy.<br> 
+            Text from the feedback form is rendered directly inside a Jinja2 template, without first being sanatised, <br>
+            on the server side.
+            <br><br>
+            Task: Capture the Flag ! The flag will be returned after submitting through the feedback box.
+            <br><br>
+            </p>
+            <!-- Button to start lab, opens a new tab -->
+            <a href="/labs/advanced/A3/A3task" target="_blank" class="button">Start Lab</a>
+            
+            <!-- Flag submission -->
+            <br><br>Submit Flag:
+            <form method="POST" action="/submitFlag">
+                <!-- Task ID for progress bar -->
+                <input type="hidden" name="taskID" value="A3">
+                <!-- Correct flag value -->
+                <input type="hidden" name="taskFlag" value="injection_sst16">
+                <!-- User flag submission -->
+                <input type="text" name="userFlag" placeholder="FLAG" autocomplete="off" required>
+                <!-- Submission Button -->
+                <button type="submit" class="button">Submit Flag</button>
+            </form>
+
+            <!-- Jinja2: Flash messages -->
+            <!-- Calls Flash function [backend] and pulls messages from storage -->
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% for category, message in messages %}
+                    <!-- If error message, display in red. If not, display in green -->
+                    <p class="{{ 'errorMessage' if category == 'error' else 'successMessage' }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+            
+        </div>
+
+        <div class="description">
+            <!-- Hints -->
+            <h2>Hints</h2>
+            <!-- Button clicked => call revealHint function from .js file -->
+            <button class="button" onclick="revealHint()">Reveal Hint?</button>
+            <div id="hints"> 
+                <!-- Each hint is hidden, displayed only when function is called -->
+                <p class="hint" style="display: none;">Hint 1: Any Jinja2 template syntax entered will be executed by the server.</p>
+                <p class="hint" style="display: none;">Hint 2: Watch what happens when you enter a mathematical expression such as &#123;&#123; 10*10 &#125;&#125;</p>  
+                <p class="hint" style="display: none;">Hint 3: The flag is stored in the flag variable</p>  
+            </div>
+        
+        </div>
+
+        <!-- Solution -->
+        <div class="description">
+            <h2>Solution</h2>
+            <!-- Button clicked => call revealSolution function from .js file -->
+            <button class="button" onclick="revealSolution()">Reveal Solution</button>
+            <!-- Solution is hidden, displayed only when function is called -->
+            <div id="solution" style="display: none;">
+                <!-- Solution text -->
+                <p> 
+                > Enter the flag variable within curly brackets into the feedback form: &#123;&#123; flag &#125;&#125;
+        </div>
+   
+    </body>
+
+</html>
