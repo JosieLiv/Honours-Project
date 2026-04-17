@@ -1,0 +1,52 @@
+<!-- Advanced task 4 - dashboard -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Account</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+    </head>
+
+    <body>
+        <!-- images and h1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+        <h3 style="font-size: 30px;">Account</h3>
+        <p class="account">
+            email: peterrabbit@mymail.com<br>
+            favourite book: None<br>
+            credit: {{ credits }} credits</p>
+
+        <!-- Free credits button -->    
+        <div style=" text-align: center; font-size: 20px; padding: 20px;">
+            <form method="POST" action="/labs/advanced/A4/A4task/A4_freeCredits">
+                <input type="hidden" name="credits" value="10">
+                Click the button to get your one-time free credits: <button type="submit" class="button">10 Credits!</button>
+            </form>
+        </div>
+
+        <!-- Jinja2, displays flag if condition in app.py is met (if credits > 1000) -->
+        {% if flag %}
+        <script>
+            alert('Congradulations! Here is the flag: {{ flag }}');
+        </script>
+        {% endif %}
+
+        <!-- Jinja2, Flash error message -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="errorMessage">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
