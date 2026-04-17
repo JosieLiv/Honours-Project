@@ -15,7 +15,7 @@
         </nav>
 
         <p style="text-align: center">Are you ready to complete some tasks, {{ session['username'] }}?<br>
-        Get started by choosing a difficulty:</p>
+        Get started by choosing a difficulty or check out the mitigation page:</p>
 
         <div class="difficultyContainer">
 
@@ -28,8 +28,15 @@
             <div class="difficulty">
                 <a href="labs/advanced">Advanced</a><br>
             </div>
+            <div class="difficulty">
+                <a href="labs/mitigation">Mitigation</a><br>
+            </div>
 
         </div>
+        
+    </body>
+
+</html>
         
     </body>
 
