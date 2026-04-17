@@ -1,0 +1,57 @@
+<!-- Beginner Task 3- user dash -->
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - Book Search</title>
+        <!-- link to .css file -->
+        <link rel="stylesheet" href="/static/lab.css">
+        <script>
+
+            /* ALERT FOR LAB I3 */
+            var flag = 'injection_x33jk';
+            /* retrieves query string from URL */
+            if (window.location.search.includes('script')) {
+                var XSSalert = window.alert; /* built-in alert function */
+                /* replace built-in alert function with own*/
+                window.alert = function(xss) {
+                    /* calls aler function with the flag */
+                    XSSalert(flag)
+                }
+            } 
+
+        </script>
+    </head>
+
+
+    <body>
+        <!-- images and H1 heading -->
+        <img class="bookLeft" src="{{ url_for('static', filename='/book.jpg')}}" alt="banner">
+        <h1>Book Nook</h1>
+        <img class="bookRight" src="{{ url_for('static', filename='/store.jpg')}}" alt="banner">
+
+
+        <h3 style="font-size: 30px;">Search for Books:</h3>
+        <div>
+            <form method="GET">
+                Search: <input type="text" name="userSearch" placeholder="Dune..." value="{{ userSearch}}">
+                <button type="submit" class="button">Search</button>
+            </form>
+        </div>
+        <!-- DEVELOPER NOTE: fix this search function, its not displaying any results from out product database -->    
+        {% if userSearch %}
+            <div class="account" style="margin-top:20px;">
+                <p>Results for: {{ userSearch | safe }}</p>
+            </div>
+        {% endif %}  
+        
+
+        <!-- page banner -->
+        <div class="banner">
+            Book Nook is a fictional website created for the purpose of Web Security Training.
+        </div>
+
+    </body>
+
+</html>
