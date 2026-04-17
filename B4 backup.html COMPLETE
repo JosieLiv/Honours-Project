@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- tab title -->
+        <title>Bookstore Portal - backup</title>
+    </head>
+
+    <body>
+
+        <h3>Index</h3>
+        <!--  fake files and flag token -->
+        <p> /backup/myWebAppDB.sql	- 3.0 MB<br>
+            /backup/users.csv - 0.2 MB<br>
+            <div style="color: blue ">flag: insecure_design_id23n</div>
+        </p>
+    
+    </body>
+
+</html>
