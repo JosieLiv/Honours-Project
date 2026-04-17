@@ -185,6 +185,11 @@ def advanced():
         return redirect(url_for('account'))
     return render_template('advanced.html')
 
+# mitigation page
+@myWebApp.route('/labs/mitigation')
+def mitigation():
+    return render_template('mitigation.html')
+
 # ------------------------------------------------------------------- #
 # --------------------------- BEGINNER LABS ------------------------- #
 
