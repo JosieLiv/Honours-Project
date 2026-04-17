@@ -1,0 +1,472 @@
+#   Josephine Livingstone - Honours Project
+
+# import Flask tools
+from flask import Flask, render_template, redirect, url_for, request, session, flash, render_template_string
+# import PyMySQL library (connects Python to MySQL/MariaDB)
+import pymysql 
+# import cursors module (to use DictCursor: returns DB rows as dictionaries)
+import pymysql.cursors
+# password hashing
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# ------------------------------------------------------------------- #
+
+# Create Flask app
+myWebApp = Flask(__name__)
+# Set secret_key, required for session
+myWebApp.secret_key = 'secretkey'
+
+# Open a database connection
+def database():
+    return pymysql.connect (
+        host='localhost', # DB runs on same machine as Flask app
+        user='myWebAppUser', # MariaDB username
+        password='myWebAppPassword', # MariaDB password
+        database='myWebAppDB', # MariaDB 
+        cursorclass=pymysql.cursors.DictCursor # return results as dictionaries
+    )
+
+# ------------------------------------------------------------------- #
+
+# when route is accessed, run the function below
+# find .html file in templates/ folder and send it to browser
+@myWebApp.route('/') 
+def home():
+    return render_template('home.html') 
+
+
+
+
+
+@myWebApp.route('/account', methods=['GET', 'POST'])
+def account():
+    error = None
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'register':
+            username = request.form['username']
+            email = request.form['email']
+            password = generate_password_hash(request.form['password'])
+            if len(username) <3 or len(username) >20:
+                flash('Username must be between 3 and 20 characters long')
+            elif len(password) <8:
+                flash('Password must be at least 8 characters long')
+            elif '@' not in email:
+                flash('Please enter a valid email')
+            else:
+                connection = database()
+                cursor = connection.cursor()
+                # check if email has already been registered 
+                cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+                user_exists = cursor.fetchone()
+                if user_exists:
+                    flash('This email has already been registered. Please login or use another email', 'error')
+                else:
+                    cursor.execute('INSERT INTO users (username, email, password) VALUES (%s, %s, %s)', (username, email, password))
+                    connection.commit()
+                    cursor.execute('SELECT userID FROM users WHERE email = %s', (email,))
+                    new = cursor.fetchone()
+                    cursor.execute('INSERT INTO scores (userID, score) VALUES (%s, %s)', (new['userID'], 0))
+                    flash('Success! Account has been created, please login.')
+                    connection.commit()
+                connection.close()   
+        elif action == 'login':
+            email = request.form['email']
+            password = request.form['password']
+            connection = database()
+            cursor = connection.cursor()
+            cursor.execute('SELECT * FROM users WHERE email = %s', (email,))
+            user = cursor.fetchone()
+            connection.close()
+            if user and check_password_hash(user['password'], password):
+                session['user_id'] = user['userID']
+                session['username'] = user['username']
+                return redirect(url_for('account'))
+            else:
+                flash('Invalid login details. Please try again.', 'error')     
+    if 'user_id' in session:
+        connection = database()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM users WHERE userID = %s', (session['user_id'],))
+        user = cursor.fetchone()
+        cursor.execute('SELECT score FROM scores WHERE userID =%s', (session['user_id'],))
+        score = cursor.fetchone()
+        cursor.execute('SELECT COUNT(*) as total FROM progress WHERE userID =%s', (session['user_id'],))
+        total = cursor.fetchone()
+        percent = round(total['total'] / 18 * 100)
+
+        cursor.execute('''SELECT users.username, scores.score FROM users 
+        JOIN scores ON users.userID = scores.userID 
+        ORDER BY scores.score DESC LIMIT 10''')
+        leaderboard = cursor.fetchall()
+
+        connection.close()
+        return render_template('account.html', user=user, score=score, total=total, percent=percent, leaderboard=leaderboard, error=error)  
+    return render_template('account.html', user=None)
+    
+
+
+@myWebApp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('account'))
+
+
+
+@myWebApp.route('/labs')
+def labs():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.', 'error')
+        return redirect(url_for('account'))
+    return render_template('labs.html')
+
+@myWebApp.route('/submitFlag', methods=['POST'])
+def submitFlag():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.', 'error')
+        return redirect(url_for('account'))
+    userFlag = request.form['userFlag']
+    taskFlag = request.form['taskFlag']
+    taskID = request.form['taskID']
+    connection = database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM progress WHERE userID = %s AND taskID = %s', (session['user_id'], taskID))
+    completed = cursor.fetchone()
+    if completed:
+        flash('You have already completed this task!', 'error')
+    elif userFlag == taskFlag:
+        cursor.execute ('UPDATE scores SET score = score + 100 WHERE userID = %s', (session['user_id']))
+        cursor.execute('INSERT INTO progress (userID, taskID) VALUES (%s, %s)', (session['user_id'], taskID))
+        connection.commit()
+        flash('Correct flag! You have earned 100 points!')
+    else:
+        flash('Incorrect flag', 'error')
+    connection.close()
+    return redirect(request.referrer)
+
+# BEGINNER LABS
+
+@myWebApp.route('/labs/beginner')
+def beginner():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('beginner.html')
+
+
+@myWebApp.route('/labs/intermediate')
+def intermediate():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('intermediate.html')
+
+
+@myWebApp.route('/labs/advanced')
+def advanced():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('advanced.html')
+
+# ------------------------------------------------------------------- #
+# --------------------------- BEGINNER LABS ------------------------- #
+
+@myWebApp.route('/labs/beginner/B1')
+def B1():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B1.html')
+
+@myWebApp.route('/labs/beginner/B2')
+def B2():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B2.html')
+
+@myWebApp.route('/labs/beginner/B3')
+def B3():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B3.html')
+
+@myWebApp.route('/labs/beginner/B4')
+def B4():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B4.html')
+
+@myWebApp.route('/labs/beginner/B5')
+def B5():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B5.html')
+
+@myWebApp.route('/labs/beginner/B6')
+def B6():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('B6.html')
+
+# ----------------------------------------------------------------------------- #
+
+# B1 - Broken Access Control Task
+
+# Task B1 user dashboard page
+@myWebApp.route('/labs/beginner/B1/B1task/B1_dash')
+def B1_dash():
+    return render_template('B1_dash.html')
+
+# Task B1 admin page, no restrictions
+@myWebApp.route('/labs/beginner/B1/B1task/B1_admin')
+def B1_admin():
+    return render_template('B1_admin.html')
+
+@myWebApp.route('/labs/beginner/B1/B1task', methods=['GET', 'POST'])
+def B1task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['username']
+        taskpass = request.form['password']
+        if taskuser == 'user1' and taskpass == 'passw0rd':
+            return redirect(url_for('B1_dash'))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('B1task.html', error=error)
+
+
+
+
+@myWebApp.route('/labs/beginner/B2/B2task', methods=['GET', 'POST'])
+def B2task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['email']
+        taskpass = request.form['password']
+        if taskuser == 'baddeveloper@booknook.com' and taskpass == 'silly1234':
+            return redirect(url_for('B2_dash'))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('B2task.html', error=error)
+
+@myWebApp.route('/labs/beginner/B2/B2task/B2_dash')
+def B2_dash():
+    return render_template('B2_dash.html')
+
+@myWebApp.route('/labs/beginner/B3/B3task', methods=['GET', 'POST'])
+def B3_dash():
+    email = request.args.get('email')
+    if not email:
+        return redirect('/labs/beginner/B3/B3task?email=lilynorm@mymail.com')
+    connection = database()
+    cursor = connection.cursor()
+    SQLQuery = "SELECT * FROM usersB3 WHERE email = '" + email + "'"
+    cursor.execute(SQLQuery)
+    queryresult = cursor.fetchall()
+    connection.close()
+    return render_template('B3task.html', queryresult=queryresult)
+
+
+
+# ----------------------------------------------------------------------------- #
+
+
+
+# --------------------------- INTERMEDIATE LABS ------------------------- #
+
+@myWebApp.route('/labs/intermediate/I1')
+def I1():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('I1.html')
+
+@myWebApp.route('/labs/intermediate/I1/I1task', methods=['GET', 'POST'])
+def I1task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['email']
+        taskpass = request.form['password']
+        if taskuser == 'lilynorm@mymail.com' and taskpass == 'bunnies2006':
+            return redirect(url_for('I1_dash', userID=1))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('I1task.html', error=error)
+
+@myWebApp.route('/labs/intermediate/I1/I1task/I1_dash')
+def I1_dash():
+    id = request.args.get('userID', 1)
+    connection = database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM usersI1 WHERE userID = %s', (id,))
+    profile = cursor.fetchone()
+    connection.close()
+    if not profile:
+        return render_template('I1_dash.html', profile=None)
+    return render_template('I1_dash.html', profile=profile)
+
+@myWebApp.route('/labs/intermediate/I2')
+def I2():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('I2.html')
+
+
+@myWebApp.route('/labs/intermediate/I2/I2task', methods=['GET', 'POST'])
+def I2task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['email']
+        taskpass = request.form['password']
+        if taskuser == 'antleek@booknook.com' and taskpass == 'password123':
+            return redirect(url_for('I2_dash'))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('I2task.html', error=error)
+
+@myWebApp.route('/labs/advanced/I2/I2task/I2_dash')
+def I2_dash():
+    return render_template('I2_dash.html')
+
+
+@myWebApp.route('/labs/intermediate/I3')
+def I3():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('I3.html')
+
+@myWebApp.route('/labs/intermediate/I3/I3task', methods=['GET', 'POST'])
+def I3_dash():
+    userSearch = request.args.get('userSearch', '')
+    return render_template('I3task.html', userSearch=userSearch)
+# ---------------------------- ADVANCED LABS ------------------------- #
+
+@myWebApp.route('/labs/advanced/A1')
+def A1():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('A1.html')
+
+
+@myWebApp.route('/labs/advanced/A1/A1task', methods=['GET', 'POST'])
+def A1task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['email']
+        taskpass = request.form['password']
+        if taskuser == 'lilynorm@mymail.com' and taskpass == 'bunnies2006':
+            session['A1role'] = 'customer'
+            session['A1email'] = 'lilynorm@mymail.com'
+            return redirect(url_for('A1_dash'))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('A1task.html', error=error)
+
+@myWebApp.route('/labs/advanced/A1/A1task/A1_dash')
+def A1_dash():
+    if 'A1role' not in session:
+        return redirect(url_for('A1task'))
+    connection = database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM usersI1 WHERE email = %s', (session['A1email'],))
+    profile = cursor.fetchone()
+    connection.close()
+    if not profile:
+        return render_template('A1_dash.html', profile=None)
+    return render_template('A1_dash.html', profile=profile)
+
+@myWebApp.route('/labs/advanced/A1/A1task/A1_admin', methods=['POST'])
+def A1_admin():
+    role = request.form.get('role')
+    if role == 'admin':
+        connection = database()
+        cursor = connection.cursor()
+        cursor.execute('SELECT userID, email, roleID FROM usersI1')
+        users = cursor.fetchall()
+        connection.close()
+        return render_template('A1_admin.html', users=users)
+    connection = database()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM usersI1 WHERE email = %s', (session['A1email'],))
+    profile = cursor.fetchone()
+    connection.close()
+    return render_template('A1_dash.html', profile=profile, error='You must have administrative privileges to access this panel')
+
+
+
+
+
+@myWebApp.route('/labs/advanced/A2')
+def A2():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('A2.html')
+
+
+@myWebApp.route('/labs/advanced/A2/A2task', methods=['GET', 'POST'])
+def A2task():
+    error = None
+    if request.method == 'POST':
+        taskuser = request.form['email']
+        taskpass = request.form['password']
+        if taskuser == 'marylamb@booknook.com' and taskpass == 'cookiedough':
+            return redirect(url_for('A2_dash'))
+        else:
+            flash('Invalid login credentials', 'error')
+    return render_template('A2task.html', error=error)
+
+@myWebApp.route('/labs/advanced/A2/A2task/A2_dash')
+def A2_dash():
+    return render_template('A2_dash.html')
+
+
+@myWebApp.route('/labs/advanced/A3')
+def A3():
+    # if user is not logged in, redirect to login page and display message
+    if 'user_id' not in session:
+        flash('You are required to log in before accessing the labs.')
+        return redirect(url_for('account'))
+    return render_template('A3.html')
+
+
+@myWebApp.route('/labs/advanced/A3/A3task', methods=['GET', 'POST'])
+def A3task():
+    result = None
+    if request.method == 'POST':
+        feedback = request.form['feedback']
+        flag = 'injection_sst16'
+        template = f'<p>We value your feedback</p><br>{feedback}</p>'
+        result = render_template_string(template, flag=flag)
+    return render_template('A3task.html', result=result)
+
+
+
+if __name__ == '__main__': # check if file is being run directly
+    myWebApp.run(debug=True) # start Flask server in debug mode
+
