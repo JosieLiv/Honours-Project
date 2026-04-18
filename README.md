@@ -3,6 +3,7 @@ Contains:
 - Home page
 - Account page
 - Lab difficulty page
+- Mitigation page
 - Beginner, intermediate, advanced task selection pages
 - 15 task description pages
 - multiple .html files for each task
