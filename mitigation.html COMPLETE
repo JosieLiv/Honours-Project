@@ -1,0 +1,96 @@
+<!-- Mitigation page-->
+<!DOCTYPE html>
+<html>
+  
+    <head>
+        <!-- Tab title -->
+        <title>CyberBreach Labs - Mitigation</title>
+        <!-- Link to stylesheet -->
+        <link rel="stylesheet" href="/static/style.css">
+    </head>
+  
+    <body>
+        <!-- heading -->
+        <h1>Mitigation</h1>
+        
+        <!-- Navigation -->      
+        <nav>
+            <a href="/">Home</a>
+            <a href="/account">Account</a>
+            <a href="/labs">Labs</a>
+        </nav>
+
+        <div class="description">
+            <!-- Vulnerability -->
+            <h2>Broken Access Control</h2>
+            <!-- Descition of vulnerability and mitigation -->
+            <p>Strong access control can be implemented using a defense-in-depth approach. This is when mutlipe access <br>
+            control mechanisms are layered to reduce the risk of a security breach. Even if one layer fails, <br>
+            there will still be protection in place. Here is a list of mitigation strategies:</p>
+            <list>
+                <ul>Server-side access control as client-side validation checks are not enough</ul>
+                <ul>Principle of Least Privilege, meaning all users are granted only the minimum permissions needed</ul>
+                <ul>Deny access to metadata files and directory listings</ul>
+                <ul>Use short expiry times for session tokens</ul>
+                <ul>Continuously test access control checks and log any failures</ul>
+            </list>   
+        </div>   
+        
+        <div class="description">
+            <!-- Vulnerability -->
+            <h2>Cryptographic Failures</h2>
+            <!-- Descition of vulnerability and mitigation -->
+            <p>Cryptographic failures compromise the CIA Triad: Confidentiality, Integrity and Availability, which <br>
+               are fundamental for cybersecurity, ensuring that data is accessed only by those authorised, that data <br>
+               remains unmodified during transmission and that data and systems are available when needed by authorised users.<br>
+               Here is a list of mitigation strategies: </p>
+               <list>
+                    <ul>Use the strongest and most modern algorithms for hashing and encryption</ul>
+                    <ul>Encrypt data at rest and encrypt data in transit</ul>
+                    <ul>Use proper key management</ul>
+                    <ul>Do not store sensitive data if it is not needed</ul>
+                </list>
+            </div>  
+
+        <div class="description">
+            <!-- Vulnerability -->
+            <h2>Injection</h2>
+            <!-- Descition of vulnerability and mitigation -->
+            <p>Here is a list of mitigation strategies:</p>
+            <list>
+                <ul>Use parameterised queries to define their structure first before passing user input</ul>
+                <ul>Use filtering to reject bad inputs</ul>
+                <ul>Use a Web Application Firewall to detect and block some types of injection</ul>
+            </list>
+        </div>  
+
+        <div class="description">
+            <!-- Vulnerability -->
+            <h2>Insecure Design</h2>
+            <!-- Descition of vulnerability and mitigation -->
+            <p>Proper planning and threat modelling is essential to protect sensitive data and <br>
+                prevent systemic vulnerabilities. Here is a list of mitigation strategies:</p>
+            <list>
+                <ul>Plan threat modelling in the design stage</ul>
+                <ul>Use a defense in depth approach</ul>
+                <ul>Define security requirements early</ul>
+            </list>
+        </div>  
+
+        <div class="description">
+            <!-- Vulnerability -->
+            <h2>Security Misconfiguration</h2>
+            <!-- Descition of vulnerability and mitigation -->
+            <p>Here is a list of mitigation strategies:</p>
+            <list>
+                <ul>Reduce the attack surface by disabling anything unnecessary</ul>
+                <ul>Do not use default credentials</ul>
+                <ul>Implement secure HTTP headers</ul>
+                <ul>Do not use detailed error messages</ul>
+            </list>
+
+        </div>  
+    
+    </body>
+
+</html>
